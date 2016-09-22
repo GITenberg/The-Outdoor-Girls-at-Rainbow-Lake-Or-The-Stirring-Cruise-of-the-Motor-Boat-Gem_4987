@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: Nim6/kOWJobPbIV+cm16+XsXkwEUmoL5cNlh7v8Sz/RDYha+qHdzfqg8mrvEpkCqppjkGSWm9YMdhSLY3LIY5rTD9scaEOYSkRjIVJQfNS1m7rLqg7ljO3nxlu6wisR7YqjkjfIbKCPfma8D/h1kHQP64aGlsBQfDSwQkPcD9H6WdgfamFmYAsDVUyBDA8X19jFbtQ9M+tgvYeH/zaera+cFO93Rt2oEGte/jrVg/u4Fpo0JuL9nhQA99fT6bYw12rpCFPteIBMZxFOerzv9sQ4iLyezSp1pAJOTW8mFg2/fpYMlBI6XDj0jWguCKRxvNhNoks5ov0Phh0FBIm2HJTkuXjfh++7WvIkXN6MjnFt9yXQPgiLcztq5XW8IZHqGOAOp2pJfQUjG5LD3/B+wEIgQKBK0SbRb67wGC4yU5j42So7s76xp+bcFGbkiFes4lNx8vhMr97xnPbNjler6lvkkTB41aR1WLMD9Ym/bapi+MHMsb9PLHgcUVDhb1uqX6rigevFKSylaCalT9XBidIv/5g1RycOnly1h8qvyvrstG9d1pkNF0xFGrY+S16o3WeaW9SgiIQwyriO/SYVjicLn5TKdXIi1M8sC0r+wnztZUIV4YSCD/NZP/GCRu9mPM3nXBdBJtlxgoRM1M1m/GZH9YMUT1+IFB83bIulhQpQ=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/The-Outdoor-Girls-at-Rainbow-Lake-Or-The-Stirring-Cruise-of-the-Motor-Boat-Gem_4987
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
