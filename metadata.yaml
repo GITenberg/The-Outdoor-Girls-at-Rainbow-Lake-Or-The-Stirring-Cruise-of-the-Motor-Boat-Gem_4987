@@ -1,5 +1,5 @@
 _repo: The-Outdoor-Girls-at-Rainbow-Lake-Or-The-Stirring-Cruise-of-the-Motor-Boat-Gem_4987
-_version: 0.2.0
+_version: 0.2.1
 covers:
 - cover_type: generated
   image_path: cover.png
@@ -31,6 +31,7 @@ subjects:
 - !lcsh 'Teenage girls -- Juvenile fiction'
 - !lcc 'PS'
 - !lcsh 'Motorboats -- Juvenile fiction'
+- GITenberg
 title: The Outdoor Girls at Rainbow Lake; Or, The Stirring Cruise of the Motor Boat
   Gem
 url: http://www.gutenberg.org/ebooks/4987
